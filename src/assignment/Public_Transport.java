@@ -1,68 +1,60 @@
 package assignment;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
-
 // 상위 클래스 : 대중교통
 public class Public_Transport {
+    static int cnt = 0;
     int number;
-    public ArrayList<Integer> present_numbers;
+    int passenger = 0;
+    int max_passenger;
+    int basic_fare;
     String status;
     int fuel_amount = 100;
     int speed;
-    int passenger = 0;
-    int available;
-    int max_passenger;
-    int basic_fare;
 
-    public int create_new_number(){
-        int new_number = 0;
-        while (present_numbers.contains(new_number)){
-            new_number += 1;
-        }
-        present_numbers.add(present_numbers.size(), new_number);
-        return new_number;
+    //새 고유 번호 생성
+    public int createNumber() {
+        ++cnt;
+        return cnt;
     }
 
-    public void takeOnPassenger(int new_passenger) {
-        if (status.equals("운행중")) {
-            if (new_passenger > available) {
-                System.out.println("alert('최대 승객 수 초과')");
-            } else{
-                this.passenger += new_passenger;
-                this.available -= new_passenger;
-            }
-        }
+    // 잔여 좌석 확인
+    public int getAvailable() {
+        return max_passenger - passenger;
     }
 
-    public int getFuel_amount(){
-        if(fuel_amount < 10){
-            System.out.println("alert('주유 필요')");
-        }
-        return fuel_amount;
+    // 요금 체크
+    public int checkFare() {
+        return basic_fare * passenger;
     }
 
-    public void useFuel(int fuel_change){
-        this.fuel_amount += fuel_change;
+    // 연료 부족
+    public boolean outOfFuel(){
+        return (fuel_amount < 10);
     }
 
-    public void refuel(int fuel_amount){
-        this.fuel_amount += fuel_amount;
-    }
-
-    public void change_speed(int change_speed) {
-        this.fuel_amount = getFuel_amount();
-        if (fuel_amount < 10) {
-            System.out.println("주유량을 확인해주세요.");
-        } else{
-            this.speed += change_speed;
+    // 연료량 감소
+    public void useFuel(int fuel_change) {
+        fuel_amount += fuel_change;
+        if (outOfFuel()){
+            changeStatus();
         }
     }
 
-    public void changeStatus(String status) {
-        this.status = status;
+    // 연료량 증가 (주유)
+    public void refuel(int fuel_change) {
+        fuel_amount += fuel_change;
     }
+
+    // 속도 변경
+    public void changeSpeed(int speed_change) {
+        if (outOfFuel()) {
+            speed += speed_change;
+        } else {
+            System.out.println("⚠ 주유량을 확인해주세요.");
+        }
+    }
+
+    // 상태 변경
+    public void changeStatus() {}
+
 }
-
-
-
