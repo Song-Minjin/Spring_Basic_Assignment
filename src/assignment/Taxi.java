@@ -7,7 +7,6 @@ public class Taxi extends Public_Transport {
     int total_fare;
     String destination;
     int distance;
-
     String[] taxi_status = {"일반", "운행 중", "운행 불가"};
 
     // 택시 객체 생성
@@ -61,7 +60,8 @@ public class Taxi extends Public_Transport {
         }
     }
 
-    @Override // 택시 상태 변경
+    // 택시 상태 변경
+    @Override
     public void changeStatus() {
         if (outOfFuel()) {                    // 연료가 없으면 상태 변경 -> '운행 불가'로 변경
             status = taxi_status[2];

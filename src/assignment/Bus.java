@@ -27,7 +27,8 @@ public class Bus extends Public_Transport {
         }
     }
 
-    @Override // 버스 상태 -> 차고지로 변경
+    // 상태 변경
+    @Override
     public void changeStatus() {
         status = (status.equals(bus_status[1])) ? bus_status[0] : bus_status[1];
         passenger = 0;
